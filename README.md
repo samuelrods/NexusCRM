@@ -76,6 +76,98 @@ _Demo available upon request_ (or add deployed link here when ready) -->
 
 ## **Installation**
 
+You can set up NexusCRM using either Docker (recommended) or traditional PHP/MySQL installation.
+
+### **Option 1: Docker Setup (Recommended)** ⭐
+
+**Prerequisites:**
+- Docker
+- Docker Compose
+- Node.js and npm
+
+**Steps:**
+
+1. Clone the repository:
+```sh
+git clone https://github.com/samuelrods/NexusCRM.git
+cd NexusCRM
+```
+
+2. Copy the environment file:
+```sh
+cp .env.example .env
+```
+
+3. Update `.env` with Docker database configuration:
+```env
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=nexus_crm
+DB_USERNAME=nexus
+DB_PASSWORD=secret
+```
+
+Set to database for local dev to avoid API errors
+```env
+SCOUT_DRIVER=database
+```
+
+4. Build and start Docker containers:
+```sh
+docker-compose up -d --build
+```
+
+5. Install Dependencies (Inside Container):
+```sh
+docker-compose exec app composer install
+docker-compose exec app npm install
+```
+
+6. Generate application key:
+```sh
+docker-compose exec app php artisan key:generate
+```
+
+7. Run migrations and seed the database:
+```sh
+docker-compose exec app php artisan migrate --seed
+```
+
+8. Build Frontend Assets:
+```sh
+docker-compose exec app npm run build
+```
+
+9. Access the application at `http://localhost:8000`
+
+**Useful Docker Commands:**
+```sh
+# View logs
+docker-compose logs -f app
+
+# Stop containers
+docker-compose down
+
+# Restart containers
+docker-compose restart
+
+# Run artisan commands
+docker-compose exec app php artisan [command]
+```
+
+---
+
+### **Option 2: Traditional Setup**
+
+**Prerequisites:**
+- PHP >= 8.1
+- Composer
+- MySQL
+- Node.js and npm
+
+**Steps:**
+
 1. Clone the project repository:
 ```sh
 git clone https://github.com/samuelrods/NexusCRM.git
@@ -101,12 +193,12 @@ npm install
 cp .env.example .env
 ```
 
-6. Generate the application key:
+6. Configure your database settings in the `.env` file
+
+7. Generate the application key:
 ```sh
 php artisan key:generate
 ```
-
-7. Configure your database settings in the `.env` file
 
 8. Migrate the database:
 ```sh
@@ -117,6 +209,18 @@ php artisan migrate
 ```sh
 php artisan db:seed
 ```
+
+10. Start the development server:
+```sh
+php artisan serve
+```
+
+11. In a separate terminal, start the Vite dev server:
+```sh
+npm run dev
+```
+
+12. The application will be available at `http://localhost:8000`
 
 ## **Getting Started**
 
