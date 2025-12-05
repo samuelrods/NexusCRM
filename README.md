@@ -1,26 +1,71 @@
 # NexusCRM
-This is a Customer Relationship Management (CRM) application built using Laravel. It's designed to help businesses manage customer data, interactions, and more. This project serves as a practical application of Laravel's features and best practices, and was created to improve my Laravel skills.
 
-![](./public/images/dashboard_screen.png)
+A Customer Relationship Management (CRM) application built with Laravel, React, and Inertia.js. This full-stack application helps businesses manage customer data, contacts, interactions, and user permissions efficiently.
+
+![Dashboard Screenshot](./public/images/dashboard_screen.png)
+
+## 🎯 **Key Features**
+
+### Core CRM Functionality
+- **Contact Management**: Comprehensive contact records with organizational affiliations
+- **Company Management**: Track companies with addresses, industries, and relationships
+- **Lead Management**: Capture and track leads from multiple sources (website, referral, etc.)
+- **Deal Pipeline**: Manage deals with values, currencies, and status tracking (pending/won/lost)
+- **Activity Tracking**: Log all interactions (calls, emails, meetings) with contacts and leads
+
+### Advanced Features
+- **Multi-tenant Architecture**: Support for multiple organizations within a single application
+- **Organization Management**: Users can create/join multiple organizations
+- **Invitation System**: Invite team members to join organizations
+- **Role-Based Access Control (RBAC)**: Granular permissions system with custom roles per organization
+- **User Authentication & Authorization**: Secure access with organization-scoped permissions
+
+### Business Intelligence
+- **Lead Source Tracking**: Identify where leads originate
+- **Deal Status Management**: Track deals through the sales pipeline
+- **Activity History**: Complete audit trail of all customer interactions
+
+## 🛠️ **Tech Stack**
+
+**Backend:**
+- Laravel 10.x (PHP 8.1+)
+- MySQL with complex relational schema
+- RESTful API architecture
+- Laravel Permissions (Spatie) for RBAC
+
+**Frontend:**
+- React.js with Hooks
+- Inertia.js (SPA without building separate API)
+- Tailwind CSS + Flowbite components
+- Vite for blazing-fast builds
+
+**Architecture:**
+- Multi-tenant design pattern
+- MVC with service layer
+- Repository pattern for data access
+- Event-driven interactions
+
+**Testing & Quality:**
+- PHPUnit for backend testing
+- Feature and unit test coverage
+- Database factories and seeders
+
+<!-- ## 🚀 **Live Demo**
+
+_Demo available upon request_ (or add deployed link here when ready) -->
 
 ## **Table of Contents**
 
-* [Project Overview](#project-overview)
 * [Requirements](#requirements)
-* [Installation](#Installation)
+* [Installation](#installation)
 * [Getting Started](#getting-started)
+* [Database Schema](#database-schema)
+* [Testing](#testing)
 * [Project Structure](#project-structure)
 * [Dependencies](#dependencies)
-* [Database Schema](#database-schema)
-* [MVC Pattern](#mvc-pattern)
-* [Testing](#testing)
-* [Purpose of the Project](#purpose-of-the-project)
+* [What I Learned](#what-i-learned)
 * [Contributing](#contributing)
 * [License](#license)
-
-## **Project Overview**
-
-This Laravel project provides a foundation for building a CRM application. The project is designed to be modular and extensible, allowing you to easily add new features and functionality.
 
 ## **Requirements**
 
@@ -32,49 +77,43 @@ This Laravel project provides a foundation for building a CRM application. The p
 ## **Installation**
 
 1. Clone the project repository:
-
 ```sh
-git clone https://github.com/smlrods/NexusCRM.git
+git clone https://github.com/samuelrods/NexusCRM.git
 ```
 
 2. Enter the project directory:
-
 ```sh
 cd NexusCRM
 ```
 
 3. Install the Composer dependencies:
-
 ```sh
 composer install
 ```
 
 4. Install the npm dependencies:
-
 ```sh
 npm install
 ```
 
-5. Create a [`.env`](command:_github.copilot.openRelativePath?%5B%22.env%22%5D ".env") file from the provided [`.env.example`](command:_github.copilot.openRelativePath?%5B%22.env.example%22%5D ".env.example") file:
-
+5. Create a `.env` file from the provided `.env.example` file:
 ```sh
 cp .env.example .env
 ```
 
 6. Generate the application key:
-
 ```sh
 php artisan key:generate
 ```
 
-7. Migrate the database:
+7. Configure your database settings in the `.env` file
 
+8. Migrate the database:
 ```sh
 php artisan migrate
 ```
 
-8. Seed the database with sample data (optional):
-
+9. Seed the database with sample data (optional):
 ```sh
 php artisan db:seed
 ```
@@ -82,97 +121,143 @@ php artisan db:seed
 ## **Getting Started**
 
 1. Start the development server:
-
 ```sh
 php artisan serve
 ```
 
-2. Start the Vite dev server:
-
+2. Start the Vite dev server (in a separate terminal):
 ```sh
 npm run dev
 ```
 
-2. The application will be available at `http://localhost:8000`
+3. The application will be available at `http://localhost:8000`
 
-## **Project Structure**
+4. Login with seeded credentials (if you ran the seeder) or create a new account
 
-The project is organized into the following directories:
+## **Database Schema**
 
-* [`app`](command:_github.copilot.openRelativePath?%5B%22app%22%5D "app"): This directory contains the application logic, including models, controllers, and services.
-* [`config`](command:_github.copilot.openRelativePath?%5B%22config%22%5D "config"): This directory contains configuration files for the application.
-* [`database`](command:_github.copilot.openRelativePath?%5B%22database%22%5D "database"): This directory contains database migrations and seeds.
-* [`public`](command:_github.copilot.openRelativePath?%5B%22public%22%5D "public"): This directory contains the web server's public files, including the front-end assets.
-* [`resources`](command:_github.copilot.openRelativePath?%5B%22resources%22%5D "resources"): This directory contains resources used by the application, such as views and language files.
-* [`routes`](command:_github.copilot.openRelativePath?%5B%22routes%22%5D "routes"): This directory contains the routing definitions for the application.
-* [`storage`](command:_github.copilot.openRelativePath?%5B%22storage%22%5D "storage"): This directory contains application storage, such as logs and uploaded files.
-* [`tests`](command:_github.copilot.openRelativePath?%5B%22tests%22%5D "tests"): This directory contains unit and feature tests for the application.
-* [`vendor`](command:_github.copilot.openRelativePath?%5B%22vendor%22%5D "vendor"): This directory contains third-party dependencies managed by Composer.
-
-## **Dependencies**
-
-This project relies on several dependencies for its functionality:
-
-### PHP and Composer Dependencies
-
-* **Laravel**: This is the main framework used for this project. Laravel is a web application framework with expressive, elegant syntax.
-
-* **PHPUnit**: This is the testing framework used for writing unit tests in this project.
-
-* **laravel-permission**: This package allows you to manage user permissions and roles in a database.
-
-Please refer to the `composer.json` file for a full list of PHP and Composer dependencies.
-
-### JavaScript and Node.js Dependencies
-
-* **Node.js and npm**: These are used for managing JavaScript dependencies and running tasks. Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine, and npm is the package manager for Node.js.
-
-* **Vite**: This is a build tool that provides faster and leaner development experience for modern web projects. It is used in this project for managing and bundling the JavaScript resources.
-
-* **Tailwind CSS**: This is a utility-first CSS framework for rapidly building custom user interfaces.
-
-* **Flowbite React**: Flowbite is a set of utility classes for Tailwind CSS that helps you build web interfaces faster.
-
-* **PostCSS**: This is a tool for transforming CSS with JavaScript, and it is used in this project in conjunction with Tailwind CSS and Flowbite.
-
-* **ReactJS**: React is the library for web and native user interfaces. Build user interfaces out of individual pieces called components written in JavaScript.
-
-* **InertiaJS**: Inertia.js is a JavaScript tool that allows users to build modern single-page apps using classic server-side routing and controllers.
-
-Please refer to the `package.json` file for a full list of JavaScript and Node.js dependencies.
-
-## Database Schema
+The application features a sophisticated multi-tenant database architecture with **15+ interconnected tables**:
 
 [![Database Schema](./assets/db-schema.svg)](https://dbdiagram.io/d/NEW-CRM-6577200d56d8064ca0cd099a)
 
-## **MVC Pattern**
+### Core Entities
+- **Users & Authentication**: User accounts with secure authentication
+- **Organizations**: Multi-tenant support with organization isolation
+- **Contacts**: Individual contact records with rich metadata
+- **Companies**: Business entities with address and industry information
+- **Leads**: Sales leads with source tracking and status management
+- **Deals**: Opportunity tracking with values and close dates
+- **Activities**: Comprehensive interaction logging (calls, emails, meetings)
 
-The project follows the MVC (Model-View-Controller) pattern. Models represent the data of the application, controllers handle user interaction and business logic, and views render the user interface.
+### Advanced Features
+- **Multi-tenancy**: Organization-scoped data with membership management
+- **RBAC System**: Custom roles and permissions per organization
+- **Invitation System**: Team member invitation workflow
+- **Relationships**: Complex many-to-many and one-to-many relationships
+
+### Key Database Patterns
+✅ Proper normalization and referential integrity  
+✅ Organization-scoped data isolation (multi-tenancy)  
+✅ Flexible role and permission system  
+✅ Audit trail capability through activity tracking
 
 ## **Testing**
 
-The project includes unit and feature tests for the application logic. You can run the tests using the following command:
+The project includes unit and feature tests to ensure code quality and reliability.
 
+To run tests:
+
+1. Set up the testing environment:
 ```sh
 cp .env.testing.example .env.testing
 ```
 
+2. Build assets:
 ```sh
 npm run build
 ```
 
+3. Run the test suite:
 ```sh
 php artisan test
 ```
 
-## **Purpose of the Project**
+## **Project Structure**
+```
+NexusCRM/
+├── app/              # Application logic (Models, Controllers, Services)
+├── config/           # Configuration files
+├── database/         # Migrations, seeds, and factories
+├── public/           # Public assets and entry point
+├── resources/        # Views, React components, and frontend assets
+├── routes/           # Application routes (web, api)
+├── storage/          # Logs and uploaded files
+├── tests/            # Unit and feature tests
+└── vendor/           # Composer dependencies
+```
 
-This project was created as a means to improve my Laravel skills. It serves as a practical application of Laravel's features and best practices. While building this CRM application, I've had the opportunity to explore various aspects of Laravel including routing, middleware, Eloquent ORM, Blade templates, and more. This hands-on experience has significantly contributed to my understanding and proficiency in Laravel.
+## **Dependencies**
+
+### Backend (PHP/Laravel)
+- **Laravel Framework**: Core web application framework
+- **laravel-permission**: Role and permission management
+- **PHPUnit**: Testing framework
+
+### Frontend (JavaScript/React)
+- **React.js**: UI component library
+- **Inertia.js**: Modern monolithic approach (SPA without building an API)
+- **Tailwind CSS**: Utility-first CSS framework
+- **Flowbite**: Tailwind component library
+- **Vite**: Fast build tool and dev server
+
+See `composer.json` and `package.json` for complete dependency lists.
+
+## 🎓 **What I Learned**
+
+Building this enterprise-level CRM application provided deep hands-on experience with:
+
+### Backend Development
+- **Multi-tenant Architecture**: Implementing organization-scoped data isolation
+- **Complex Database Design**: Creating normalized schemas with 15+ interconnected tables
+- **RBAC Implementation**: Building a flexible role and permission system using laravel-permission
+- **Business Logic**: Modeling real-world CRM workflows (leads → deals → conversions)
+- **Data Relationships**: Working with complex many-to-many and polymorphic relationships
+
+### Full-stack Integration
+- **Laravel + React + Inertia.js**: Seamless integration of backend and frontend
+- **API Design**: Creating maintainable RESTful endpoints
+- **State Management**: Handling complex application state across components
+- **Authentication Flow**: Implementing secure, organization-aware authentication
+
+### Software Engineering Practices
+- **Testing**: Writing comprehensive unit and feature tests
+- **Code Organization**: Following SOLID principles and Laravel best practices
+- **Version Control**: Professional Git workflow and commit practices
+- **Documentation**: Creating clear, maintainable documentation
+
+This project represents a production-ready application architecture and significantly enhanced my understanding of enterprise software development patterns.
+
+## 📝 **Future Improvements**
+
+- [ ] Email notifications for follow-up reminders
+- [ ] Advanced search and filtering capabilities
+- [ ] Analytics dashboard with charts and metrics
+- [ ] Export functionality (CSV, PDF reports)
+- [ ] API documentation with Swagger/OpenAPI
+- [ ] Calendar view for scheduled interactions
 
 ## **Contributing**
 
-We welcome contributions to this project.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## **License**
 
-This project is licensed under the MIT License. Please see the LICENSE file for more information.
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+<!-- ## 📧 **Contact**
+
+Samuel Rodrigues - [Your LinkedIn] - [Your Email]
+
+Project Link: [https://github.com/samuelrods/NexusCRM](https://github.com/samuelrods/NexusCRM) -->
