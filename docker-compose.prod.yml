@@ -41,13 +41,15 @@ services:
   db:
     image: mysql:8.0
     restart: always
-    mem_limit: 512m
+    mem_limit: 768m
     command: >
       --innodb-buffer-pool-size=128M
       --innodb-log-buffer-size=16M
       --max-connections=50
       --tmp-table-size=32M
       --max-heap-table-size=32M
+      --performance-schema=OFF
+      --table-open-cache=400
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
