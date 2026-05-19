@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     restart: always
+    mem_limit: 256m
     environment:
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}
@@ -40,6 +41,14 @@ services:
   db:
     image: mysql:8.0
     restart: always
+    mem_limit: 512m
+    command: >
+      --innodb-buffer-pool-size=128M
+      --innodb-log-buffer-size=16M
+      --query-cache-size=0
+      --max-connections=50
+      --tmp-table-size=32M
+      --max-heap-table-size=32M
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -59,6 +68,7 @@ services:
   meilisearch:
     image: getmeili/meilisearch:latest
     restart: always
+    mem_limit: 256m
     environment:
       MEILI_MASTER_KEY: ${MEILISEARCH_KEY}
       MEILI_NO_ANALYTICS: "true"
