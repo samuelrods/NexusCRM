@@ -2,11 +2,11 @@ import { test, expect } from "@playwright/test";
 import { ORG_SLUG } from "./helpers/test-utils";
 
 test.describe("User Profile", () => {
-    test("can navigate to profile from navbar", async ({ page }) => {
+    test("can navigate to profile from user menu", async ({ page }) => {
         await page.goto(`/${ORG_SLUG}/dashboard`);
 
         // Open user menu
-        await page.locator("header button.rounded-full").click();
+        await page.locator("button[data-testid='user-profile-button']").click();
 
         // Wait for the dropdown menu to be visible
         const dropdownMenu = page.getByRole("menu");

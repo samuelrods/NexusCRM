@@ -42,7 +42,7 @@ test.describe("Navigation", () => {
         await expect(breadcrumbs).toContainText("create");
     });
 
-    test("navbar organization switcher opens", async ({ page }) => {
+    test("organization switcher opens", async ({ page }) => {
         await page.goto(`/${ORG_SLUG}/dashboard`);
 
         const orgSwitcher = page.getByRole("button", { name: /Nexus Corp/i });
@@ -58,13 +58,16 @@ test.describe("Navigation", () => {
     test("user profile dropdown opens", async ({ page }) => {
         await page.goto(`/${ORG_SLUG}/dashboard`);
 
-        // The user profile button has UserCircle icon, let's find it by role or better if it had a testid
-        // Based on Navbar.tsx, it's a Button with rounded-full
-        const profileBtn = page.locator("header button.rounded-full");
+        // The user profile button has UserCircle icon, let's find it by testid
+        const profileBtn = page.locator(
+            "button[data-testid='user-profile-button']",
+        );
         await profileBtn.click();
 
         await expect(page.getByText("Sign out")).toBeVisible();
         // Should show user info (admin@example.com from auth.setup.ts)
-        await expect(page.getByText("admin@example.com")).toBeVisible();
+        await expect(
+            page.locator("[role='menu']").getByText("admin@example.com"),
+        ).toBeVisible();
     });
 });
