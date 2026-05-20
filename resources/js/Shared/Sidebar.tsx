@@ -15,8 +15,14 @@ import {
     Briefcase,
     Settings,
     TrendingUp,
+    ChevronLeft,
+    Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SidebarOrgSwitcher from "./SidebarOrgSwitcher";
+import SidebarUserProfile from "./SidebarUserProfile";
+import { ModeToggle } from "@/Components/ModeToggle";
+import { Button } from "@/Components/ui/button";
 
 const SidebarItem = ({ href, icon: Icon, children, collapsed, isSubItem }) => {
     const { url } = usePage();
@@ -129,7 +135,12 @@ const SidebarGroup = ({
     );
 };
 
-const Sidebar = ({ sidebarOpen }: any) => {
+interface SidebarProps {
+    sidebarOpen: boolean;
+    toggleSidebar: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
     const [collapsed, setCollapsed] = useState(!sidebarOpen);
     const { auth } = usePage().props;
     const organization = auth.organization;
@@ -164,12 +175,70 @@ const Sidebar = ({ sidebarOpen }: any) => {
     return (
         <aside
             className={cn(
-                "fixed left-0 top-16 z-30 h-[calc(100vh-4rem)] transition-transform bg-card border-r border-border",
-                collapsed ? "w-20" : "w-64",
+                "fixed left-0 top-0 z-40 h-screen transition-transform sm:transition-all duration-300 bg-card border-r border-border flex flex-col",
+                // Mobile slide in/out
+                sidebarOpen ? "translate-x-0" : "-translate-x-full",
+                // Desktop always visible
+                "sm:translate-x-0 w-64",
+                collapsed ? "sm:w-20" : "sm:w-64",
             )}
             aria-label="Sidebar"
         >
-            <div className="h-full px-3 py-4 overflow-y-auto bg-card">
+            {/* Header (Branding & Toggle Button) */}
+            <div className="flex items-center justify-between px-3 h-16 border-b border-border shrink-0">
+                {!collapsed ? (
+                    <>
+                        <Link
+                            href={
+                                auth.organization
+                                    ? route("dashboard", {
+                                          organization: auth.organization.slug,
+                                      })
+                                    : route("organizations.index")
+                            }
+                            className="flex items-center"
+                        >
+                            <span className="self-center whitespace-nowrap text-xl font-bold text-blue-600 dark:text-blue-400">
+                                Nexus
+                            </span>
+                        </Link>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={toggleSidebar}
+                            className="hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-lg"
+                            aria-label="Collapse sidebar"
+                        >
+                            <ChevronLeft className="h-5 w-5 text-muted-foreground" />
+                        </Button>
+                    </>
+                ) : (
+                    <div className="flex justify-center w-full">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={toggleSidebar}
+                            className="hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-lg"
+                            aria-label="Expand sidebar"
+                        >
+                            <Menu className="h-5 w-5 text-muted-foreground" />
+                        </Button>
+                    </div>
+                )}
+            </div>
+
+            {/* Organization Switcher Section */}
+            <div
+                className={cn(
+                    "p-3 border-b border-border shrink-0",
+                    collapsed && "flex justify-center",
+                )}
+            >
+                <SidebarOrgSwitcher collapsed={collapsed} auth={auth} />
+            </div>
+
+            {/* Navigation Section */}
+            <div className="flex-1 overflow-y-auto px-3 py-4">
                 <ul className="space-y-2 font-medium">
                     <SidebarItem
                         href={`${prefix}/dashboard`}
@@ -300,6 +369,31 @@ const Sidebar = ({ sidebarOpen }: any) => {
                         </SidebarGroup>
                     )}
                 </ul>
+            </div>
+
+            {/* Footer Section (Theme and User profile) */}
+            <div
+                className={cn(
+                    "p-3 border-t border-border flex flex-col gap-2 bg-card shrink-0",
+                    collapsed && "items-center",
+                )}
+            >
+                <div
+                    className={cn(
+                        "flex items-center justify-between px-1",
+                        collapsed
+                            ? "flex-col gap-2 justify-center items-center"
+                            : "",
+                    )}
+                >
+                    {!collapsed && (
+                        <span className="text-xs text-muted-foreground font-medium">
+                            Theme
+                        </span>
+                    )}
+                    <ModeToggle />
+                </div>
+                <SidebarUserProfile collapsed={collapsed} auth={auth} />
             </div>
         </aside>
     );
