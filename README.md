@@ -49,7 +49,7 @@ A Customer Relationship Management (CRM) application built with Laravel, React, 
 **Backend:**
 
 -   Laravel 10.x (PHP 8.1+)
--   MySQL with complex relational schema
+-   PostgreSQL with complex relational schema
 -   Meilisearch for ultra-fast full-text search
 -   RESTful API architecture
 -   Laravel Permissions (Spatie) for RBAC
@@ -83,12 +83,12 @@ _Demo available upon request_ (or add deployed link here when ready) -->
 
 -   PHP >= 8.1
 -   Composer
--   MySQL
+-   PostgreSQL
 -   Node.js and npm
 
 ## **Installation**
 
-You can set up Nexus using either Docker (recommended) or traditional PHP/MySQL installation.
+You can set up Nexus using either Docker (recommended) or traditional PHP/PostgreSQL installation.
 
 ### **Option 1: Docker Setup (Recommended)**
 
@@ -116,9 +116,9 @@ cp .env.example .env
 3. Update `.env` with Docker database and search configuration:
 
 ```env
-DB_CONNECTION=mysql
+DB_CONNECTION=pgsql
 DB_HOST=db
-DB_PORT=3306
+DB_PORT=5432
 DB_DATABASE=nexus_crm
 DB_USERNAME=nexus
 DB_PASSWORD=secret
@@ -216,7 +216,7 @@ docker compose exec app php artisan [command]
 
 -   PHP >= 8.1
 -   Composer
--   MySQL
+-   PostgreSQL
 -   Node.js and npm
 
 **Steps:**

@@ -44,29 +44,18 @@ services:
 
   # 3. Database — Test (ephemeral, no named volume)
   db_test:
-    image: mysql:8.0
+    image: postgres:15-alpine
     container_name: nexus_db_test
     restart: "no"
     environment:
-      MYSQL_DATABASE: nexus_test
-      MYSQL_ROOT_PASSWORD: nexus_password
-      MYSQL_PASSWORD: nexus_password
-      MYSQL_USER: nexus_user
+      POSTGRES_DB: nexus_test
+      POSTGRES_PASSWORD: nexus_password
+      POSTGRES_USER: nexus_user
     # tmpfs keeps data in RAM — wiped on container stop
     tmpfs:
-      - /var/lib/mysql:mode=777
+      - /var/lib/postgresql/data:mode=777
     healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "127.0.0.1",
-          "-u",
-          "nexus_user",
-          "-pnexus_password",
-        ]
+      test: ["CMD", "pg_isready", "-U", "nexus_user", "-d", "nexus_test"]
       interval: 5s
       timeout: 5s
       retries: 10
