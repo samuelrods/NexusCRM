@@ -35,7 +35,7 @@ const FAQS: FaqItemType[] = [
     },
     {
         q: "What tech stack does Nexus use?",
-        a: "The backend is powered by Laravel with MySQL and Meilisearch for fast full-text search. The frontend uses React with Inertia.js for a seamless single-page experience, styled with Tailwind CSS and shadcn/ui components.",
+        a: "The backend is powered by Laravel with PostgreSQL and Meilisearch for fast full-text search. The frontend uses React with Inertia.js for a seamless single-page experience, styled with Tailwind CSS and shadcn/ui components.",
     },
 ];
 

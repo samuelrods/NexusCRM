@@ -65,12 +65,12 @@ class RoleControllerTest extends TestCase
 
         // Assert the role has the correct name
         $this->assertDatabaseHas('roles', [
-            'name' => $data['name'],
+            'name' => ucfirst($data['name']),
             'organization_id' => $this->organization->id,
         ]);
 
         // Assert the role has the correct permissions
-        $role = Role::where('name', $data['name'])->where('organization_id', $this->organization->id)->first();
+        $role = Role::where('name', ucfirst($data['name']))->where('organization_id', $this->organization->id)->first();
         $this->assertCount(count($data['permissions']), $role->permissions);
         $this->assertTrue($role->permissions->pluck('id')->contains($permissions->first()->id));
     }
@@ -111,7 +111,7 @@ class RoleControllerTest extends TestCase
         // Assert the role has the new name
         $this->assertDatabaseHas('roles', [
             'id' => $role->id,
-            'name' => $data['name'],
+            'name' => ucfirst($data['name']),
         ]);
 
         // Assert the role has the new permissions

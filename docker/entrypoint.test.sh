@@ -19,7 +19,7 @@ fi
 
 # Wait for the test database to be ready
 echo "Waiting for db_test..."
-until php artisan db:monitor --databases=mysql --env=testing > /dev/null 2>&1; do
+until php artisan db:monitor --databases=pgsql --env=testing > /dev/null 2>&1; do
   echo "  db_test is unavailable — retrying in 2s"
   sleep 2
 done

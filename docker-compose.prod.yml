@@ -39,30 +39,22 @@ services:
       - nexus-network
 
   db:
-    image: mysql:8.0
+    image: postgres:15-alpine
     restart: always
     mem_limit: 768m
-    command: >
-      --innodb-buffer-pool-size=128M
-      --innodb-log-buffer-size=16M
-      --max-connections=50
-      --tmp-table-size=32M
-      --max-heap-table-size=32M
-      --performance-schema=OFF
-      --table-open-cache=400
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-p$${DB_PASSWORD}"]
+      test:
+        ["CMD", "pg_isready", "-U", "${DB_USERNAME}", "-d", "${DB_DATABASE}"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 30s
     volumes:
-      - nexus_db_data:/var/lib/mysql
+      - nexus_pg_data:/var/lib/postgresql/data
     networks:
       - nexus-network
 
@@ -89,5 +81,5 @@ networks:
     driver: bridge
 
 volumes:
-  nexus_db_data:
+  nexus_pg_data:
   nexus_meilisearch_data:

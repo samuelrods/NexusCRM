@@ -31,16 +31,15 @@ services:
 
     # 3. The Database
     db:
-        image: mysql:8.0
+        image: postgres:15-alpine
         container_name: nexus_db
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: ${DB_USERNAME}
         volumes:
-            - dbdata:/var/lib/mysql
+            - pgdata:/var/lib/postgresql/data
         networks:
             - nexus-network
 
@@ -78,5 +77,5 @@ networks:
         driver: bridge
 
 volumes:
-    dbdata:
+    pgdata:
     meilisearch-data:

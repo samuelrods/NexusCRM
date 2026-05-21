@@ -59,7 +59,7 @@ export function TechnicalHighlights() {
         {
             title: "Granular Access Control",
             category: "Security",
-            tech: "MySQL + Laravel Policies",
+            tech: "PostgreSQL + Laravel Policies",
             description:
                 "Implements organization-isolated database logic and custom RBAC permissions, restricting user operations dynamically across multiple organizations.",
         },

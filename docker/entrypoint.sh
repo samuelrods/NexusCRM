@@ -19,7 +19,7 @@ fi
 
 # Wait for database to be ready
 echo "Waiting for database..."
-until php artisan db:monitor --databases=mysql > /dev/null 2>&1; do
+until php artisan db:monitor --databases=pgsql > /dev/null 2>&1; do
   echo "Database is unavailable - sleeping"
   sleep 2
 done
